@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>NBA Scrape</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+
+    <!-- BOOTSTRAP - Latest compiled and minified CSS -->
+    {{!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
+    <!-- JQuery -->
+    {{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+    <!-- BOOTSTRAP - Latest compiled and minified JavaScript -->
+    {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script> --}}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    {{!-- Custom Javascript --}}
+    {{!-- <script type="text/javascript" src="/javascript/app.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> --}}
+
+<body>
+
+    <img src="http://amicohoops.net/wp-content/uploads/2015/10/NBAnews.jpg" alt="NBA News" width="100%" height="150px">
+
+    <nav class="blue" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo">NBA Scrape</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li><a href="/models/Articles.js">Articles</a></li>
+
+            </ul>
+
+            <ul id="nav-mobile" class="sidenav">
+
+                <li><a href="/">Home</a></li>
+                <li><a href="/models/Articles.js">Articles</a></li>
+
+            </ul>
+
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+        </div>
+
+    </nav>
+    {{!-- <img src="http://www.sportsleakersmedia.com/wp-content/uploads/2017/04/new-nba-logo.jpg"
+        alt="NBA News"> --}}
+
+    {{!-- <img src="https://external-preview.redd.it/0B8BFvkHf7Vp9HfHj2oezjDymTFQDPvp1hgEcOqZ06s.gif?format=png8&s=b7d07a46db31eb8e028a90dd6ad9816900fe64ab"
+    alt="NBA Scrapes"> --}}
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center text-primary">NBA Scrape</h1>
+        </div>
+        {{{body}}}
+    </div>
+    <div class="container" id="wrapper" width="100%">
+        <footer class="page-footer white">
+            <strong>
+                <div class="footer-copyright">
+                    <a class="black-text" href="https://github.com/BVega03" target="_blank"> &copy; <i
+                            class="fab fa-github"> Ben Vega</i></a>
+                </div>
+            </strong>
+        </footer>
+    </div>
+
+
+</body>
+
+</html>
