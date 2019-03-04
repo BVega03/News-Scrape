@@ -1,11 +1,12 @@
 // NPM Modules
 
-var express = require('express');
+var express = require("express");
 // var path = require('path');
-var request = require('request');
-var cheerio = require('cheerio');
+var request = require("request");
+var cheerio = require("cheerio");
+var axios = require("axios");
 var router = express.Router();
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Promise = require("bluebird");
 
 // Assign Mongoose promise
@@ -16,79 +17,76 @@ var Articles = require("../models/Articles");
 var Comments = require("../models/Comments");
 
 // Website To Be Scraped
-var url = "https://www.nba.com";
+var url = "https://www.nba.com/";
 
-// Test Route To Verify Scraping Works From Route
-router.get('/test', function (req, res) {
-    // body of the html with request
-    request(url, function (error, response, html) {
+axios.get("https://www.nba.com").then(function(response) {
         // load that into cheerio and save it to $ for a shorthand selector
-        var $ = cheerio.load(html);
+        var $ = cheerio.load(response.data);
         var result = [];
-        $(".span6").each(function (i, element) {
-            var title = $(element).find("a").find("img").attr("title");
-            var storyLink = $(element).find("a").attr("href");
-            var imgLink = $(element).find("a").find("img").attr("src");
-            var summary = $(element).find(".td-post-text-excerpt").text();
-            summary = summary.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+        $("a.content_list--item").each(function (i, element) {
+            var title = $(element).text();
+            var newsLink = $(element).attr("href");
+            // var imgLink = $(element).find("a").find("img").attr("src");
+            // var summary = $(element).find("h5.content_list--title").text();
+            // summary = summary.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
             result.push({
                 Title: title,
-                Story: storyLink,
-                Link: imgLink,
-                Summary: summary
+                News: newsLink,
+                // Link: imgLink,
+                // Summary: summary
             });
         });
         console.log(result);
         res.send(result);
     });
-});
 
-// Default route renders the index handlebars view
-router.get('/', function (req, res) {
-    res.render('index');
-});
 
-// Scrape the website and assign stories to the database. Checks to verify story has not been added previously.
-router.get('/scrape', function (req, res) {
-    request(url, function (error, response, html) {
-        var $ = cheerio.load(html);
-        var result = [];
-        // Scrape website
-        $(".span6").each(function (i, element) {
-            var title = $(element).find("a").find("img").attr("title");
-            var imgLink = $(element).find("a").find("img").attr("src");
-            var storyLink = $(element).find("a").attr("href");
-            var summary = $(element).find(".td-post-text-excerpt").text();
-            summary = summary.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
-            result[i] = ({
-                title: title,
-                imgLink: imgLink,
-                storyLink: storyLink,
-                summary: summary
-            });
-            // Check database to see if story saved previously to database
-            Articles.findOne({
-                'title': title
-            }, function (err, articleRecord) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (articleRecord == null) {
-                        Articles.create(result[i], function (err, record) {
-                            if (err) throw err;
-                            console.log("Record Added");
-                        });
-                    } else {
-                        console.log("No Record Added");
-                    }
-                }
-            });
-        });
-    });
-});
+// // Default route renders the index handlebars view
+// router.get('/', function (req, res) {
+//     res.render('index');
+// });
+
+// // Scrape the website and assign stories to the database. Checks to verify story has not been added previously.
+// router.get('/scrape', function (req, res) {
+//     request(url, function (error, response, html) {
+//         var $ = cheerio.load(html);
+//         var result = [];
+//         // Scrape website
+//         $("h5.content_list--title").each(function (i, element) {
+//             var title = $(element).find("a").find("img").attr("title");
+//             // var newsLink = $(element).find("a").attr("href");
+//             // var imgLink = $(element).find("a").find("img").attr("src");
+//             // var summary = $(element).find("h5.content_list--title").text();
+//             // summary = summary.replace(/(\r\n|\n|\r|\t|\s+)/gm, " ").trim();
+//             result.push({
+//                 Title: title,
+//                 // News: newsLink,
+//                 // Link: imgLink,
+//                 // Summary: summary
+//             });
+//             // Check database to see if story saved previously to database
+//             Articles.findOne({
+//                 'title': title
+//             }, function (err, articleRecord) {
+//                 if (err) {
+//                     console.log(err);
+//                 } else {
+//                     if (articleRecord == null) {
+//                         Articles.create(result[i], function (err, record) {
+//                             if (err) throw err;
+//                             console.log("Record Added");
+//                         });
+//                     } else {
+//                         console.log("No Record Added");
+//                     }
+//                 }
+//             });
+//         });
+//     });
+// });
 
 // Get all current articles in database
-router.get('/articles', function (req, res) {
+axios.get('/articles', function (req, res) {
     Articles.find().sort({
         createdAt: -1
     }).exec(function (err, data) {
@@ -98,7 +96,7 @@ router.get('/articles', function (req, res) {
 });
 
 // Get all comments for one article
-router.get('/comments/:id', function (req, res) {
+axios.get('/comments/:id', function (req, res) {
     Comments.find({
         'articleId': req.params.id
     }).exec(function (err, data) {
@@ -111,7 +109,7 @@ router.get('/comments/:id', function (req, res) {
 });
 
 // Add comment for article
-router.post('/addcomment/:id', function (req, res) {
+axios.post('/addcomment/:id', function (req, res) {
     console.log(req.params.id + ' ' + req.body.comment);
     Comments.create({
         articleId: req.params.id,
@@ -127,7 +125,7 @@ router.post('/addcomment/:id', function (req, res) {
 });
 
 // Delete comment for article
-router.get('/deletecomment/:id', function (req, res) {
+axios.get('/deletecomment/:id', function (req, res) {
     console.log(req.params.id)
     Comments.remove({
         '_id': req.params.id
@@ -140,4 +138,4 @@ router.get('/deletecomment/:id', function (req, res) {
     })
 });
 
-module.exports = router;
+module.exports = axios;
